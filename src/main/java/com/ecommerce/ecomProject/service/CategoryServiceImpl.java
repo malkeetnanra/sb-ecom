@@ -10,6 +10,7 @@ import org.springframework.web.server.ServerErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -48,4 +49,18 @@ public class CategoryServiceImpl implements CategoryService {
         return "Category with categoryId "+categoryId+" deleted successfully!";
     }
 
+    @Override
+    public Category updateCategory (Category category, Long categoryId) {
+        Optional<Category> optionalCategory = categories.stream()
+                .filter(c -> c.getCategoryId().equals(categoryId))
+                .findFirst();
+
+        if(optionalCategory.isPresent()){
+            Category exisitingCategory = optionalCategory.get();
+            exisitingCategory.setCategoryName(category.getCategoryName());
+            return exisitingCategory;
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found");
+        }
+    }
 }
