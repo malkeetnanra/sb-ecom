@@ -5,7 +5,6 @@ import com.ecommerce.ecomProject.exceptions.ResourceNotFoundException;
 import com.ecommerce.ecomProject.model.Category;
 import com.ecommerce.ecomProject.repositories.CategoryRepository;
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +12,6 @@ import java.util.List;
 
 @Service
     public class CategoryServiceImpl implements CategoryService {
-
-        private Long nextId=1L;
 
         @Autowired
         private CategoryRepository categoryRepository;
@@ -35,7 +32,6 @@ import java.util.List;
             if(savedCategory != null){
                 throw new APIException("Category with the name "+category.getCategoryName()+" already exists!");
             }
-            category.setCategoryId(nextId++);
             categoryRepository.save(category);
         }
 
