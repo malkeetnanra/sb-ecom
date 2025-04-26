@@ -5,29 +5,32 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Version;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
+@Getter
+@Setter
 @Entity(name = "categories")
 @NoArgsConstructor
 public class Category {
-    @Setter
-    @Getter
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
-    @Setter
-    @Getter
+
+
+    @NotBlank//(message = "A name is needed")//Used a validator here @NotBlank and used @Valid in the controller class
+    @Size(min=5,message = "Please enter minimum 5 characters.")//removed the above messege to make this work
     private String categoryName;
 
-    @Version
-    private Integer version;
+    //@Version
+    //private Integer version;
 
-    public Category(Long categoryId, String categoryName) {
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
-    }
+//    public Category(Long categoryId, String categoryName) {
+//        this.categoryId = categoryId;
+//        this.categoryName = categoryName;
+//    }
 
 //    public Category() { //replaced by no rgs constructor
 //    }

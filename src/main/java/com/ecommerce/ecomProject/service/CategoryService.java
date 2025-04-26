@@ -2,13 +2,9 @@ package com.ecommerce.ecomProject.service;
 
 import com.ecommerce.ecomProject.model.Category;
 
-import java.util.List;
-
-import java.util.List;
-
 public interface CategoryService {
 
-    List<Category> getAllCategories();
+    Object getAllCategories();
 
     void createCategory(Category category);
 

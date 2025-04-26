@@ -3,13 +3,14 @@ package com.ecommerce.ecomProject.controller;
 import java.util.*;
 import com.ecommerce.ecomProject.model.Category;
 import com.ecommerce.ecomProject.service.CategoryService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-//
 //    /**
 //     * Dependency Injection and Service Implementation in the Category Module
 //     *
@@ -31,76 +32,21 @@ import org.springframework.web.server.ResponseStatusException;
 //    at the controller level we can set a URL pattern that the contoller will handle
 //    eg:
 //
-//    @PostMapping("/api/public/categories")
-//
-//    so we will use
-//    @RequestMapping("/api") as this is common on all the api requests
-//
-//    once done, we will write others like
-//
-//    @PostMapping("/public/categories") and this will work
-//    */
-//
-//    @RestController
-//    @RequestMapping("/api")
-//    public class CategoryController {
-//
-//        @Autowired
-//        private CategoryService categoryService;
-//
-//        @GetMapping("/public/categories")
-//        //@RequestMapping(value = "/public/categories", method = RequestMethod.GET)
-//        public ResponseEntity<List<Category>> getAllCategories(){
-//            List<Category> categories = categoryService.getAllCategories();
-//            return new ResponseEntity<>(categories, HttpStatus.OK);
-//        }
-//
-//        @PostMapping("/public/categories")
-//        //@RequestMapping(value = "/public/categories", method = RequestMethod.POST)
-//        public ResponseEntity<String> createCategory(@RequestBody Category category){
-//            categoryService.createCategory(category);
-//            return new ResponseEntity<>("Category added successfully", HttpStatus.CREATED);
-//        }
-//
-//        @DeleteMapping("/admin/categories/{categoryId}")
-//        public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId){
-//            try {
-//                String status = categoryService.deleteCategory(categoryId);
-//                //return new ResponseEntity<>(status, HttpStatus.OK);
-//                //return ResponseEntity.ok(status);
-//                return ResponseEntity.status(HttpStatus.OK).body(status);
-//            } catch (ResponseStatusException e){
-//                return new ResponseEntity<>(e.getReason(), e.getStatusCode());
-//            }
-//        }
-//
-//
-//        @PutMapping("/public/categories/{categoryId}")
-//        public ResponseEntity<String> updateCategory(@RequestBody Category category,
-//                                                     @PathVariable Long categoryId){
-//            try{
-//                Category savedCategory = categoryService.updateCategory(category, categoryId);
-//                return new ResponseEntity<>("Category with category id: " + categoryId, HttpStatus.OK);
-//            } catch (ResponseStatusException e){
-//                return new ResponseEntity<>(e.getReason(), e.getStatusCode());
-//            }
-//        }
-//    }
-//
 @RestController
 @RequestMapping("/api")
+
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
     @GetMapping("/public/categories")
     public ResponseEntity<List<Category>> getAllCategories() {
-        List<Category> categories = categoryService.getAllCategories();
+        List<Category> categories = (List<Category>) categoryService.getAllCategories();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @PostMapping("/public/categories")
-    public ResponseEntity<String> createCategory(@RequestBody Category category) {
+    public ResponseEntity<String> createCategory(@Valid @RequestBody Category category) {
         categoryService.createCategory(category);
         return new ResponseEntity<>("Category added successfully", HttpStatus.CREATED);
     }
@@ -116,7 +62,7 @@ public class CategoryController {
     }
 
     @PutMapping("/public/categories/{categoryId}")
-    public ResponseEntity<String> updateCategory(@RequestBody Category category,
+    public ResponseEntity<String> updateCategory(@Valid @RequestBody Category category,
                                                  @PathVariable Long categoryId) {
         try {
             Category savedCategory = categoryService.updateCategory(category, categoryId);
@@ -126,4 +72,3 @@ public class CategoryController {
         }
     }
 }
-
