@@ -18,20 +18,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
 
-
     @NotBlank//(message = "A name is needed")//Used a validator here @NotBlank and used @Valid in the controller class
     @Size(min=5,message = "Please enter minimum 5 characters.")//removed the above messege to make this work
     private String categoryName;
-
-    //@Version
-    //private Integer version;
-
-//    public Category(Long categoryId, String categoryName) {
-//        this.categoryId = categoryId;
-//        this.categoryName = categoryName;
-//    }
-
-//    public Category() { //replaced by no rgs constructor
-//    }
 
 }
