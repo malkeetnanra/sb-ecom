@@ -1,5 +1,6 @@
 package com.ecommerce.ecomProject.controller;
 
+import com.ecommerce.ecomProject.config.AppContants;
 import com.ecommerce.ecomProject.model.Category;
 import com.ecommerce.ecomProject.payload.CategoryDTO;
 import com.ecommerce.ecomProject.payload.CategoryResponse;
@@ -37,12 +38,27 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+/*
+For learning purpose
+    @GetMapping("/echo")
+  //  public ResponseEntity<String> echoMessage(@RequestParam(name = "message", defaultValue ="Hello!") String message)
+    public ResponseEntity<String> echoMessage(@RequestParam(name = "message", required = false) String message){
+        return  new ResponseEntity<>("Echoed message: "+ message, HttpStatus.OK);
+    }
+*/
+
 
     @GetMapping("/public/categories")
-    public ResponseEntity<CategoryResponse> getAllCategories() {
-        CategoryResponse categoryResponse = categoryService.getAllCategories();
+    public ResponseEntity<CategoryResponse> getAllCategories(
+            @RequestParam(name = "pageNumber", defaultValue = AppContants.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = AppContants.PAGE_SIZE, required = false)  Integer pageSize,
+            @RequestParam(name = "sortBy", defaultValue = AppContants.SORT_CATEGORIES_BY) String sortBy,
+            @RequestParam(name = "sortOrder", defaultValue = AppContants.SORT_CATEGORIES_ORDER) String sortOrder)
+     {
+        CategoryResponse categoryResponse = categoryService.getAllCategories(pageNumber, pageSize,sortBy,sortOrder);
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
+
 
     @PostMapping("/public/categories")
     public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
