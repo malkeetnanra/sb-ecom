@@ -6,38 +6,44 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.util.List;
 import java.util.Objects;
 
-@Entity(name = "categories")
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
-public class Category {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long categoryId;
+    private Long id;
 
     @NotBlank
-    @Size(min = 5, message = "Please enter minimum 5 characters.")
-    private String categoryName;
+    @Size(min = 3, max = 14, message = "Must contain 3-14 letters")
+    private Long productId;
 
-    @Version
-    private Integer version; // For optimistic locking
+    private String productName;
+    private String description;
+    private Integer quantity;
+    private double price;
+    private double specialPrice;
+    private double discount;
+    private String image;
 
-    // One category can have many products
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Product> products;
+    // Many products can belong to one category
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     // Equals and hashCode based on ID
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != getEffectiveClass(o)) return false;
-        Category category = (Category) o;
-        return categoryId != null && categoryId.equals(category.categoryId);
+        Product product = (Product) o;
+        return id != null && id.equals(product.id);
     }
 
     @Override

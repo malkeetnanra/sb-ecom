@@ -22,4 +22,7 @@ public class ResourceNotFoundException extends RuntimeException {
         this.Field = field;
         this.fieldId = fieldId;
     }
+
+    public ResourceNotFoundException(String product, String productId, Object o) {
+    }
 }
